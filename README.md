@@ -1,4 +1,8 @@
-# Python Client for StackExchange API
+=======
+pystex
+======
+
+# Python API client for StackExchange APIv2.1
 
 ## Install
 
