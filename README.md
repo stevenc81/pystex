@@ -1,10 +1,10 @@
 =======
 pystex
-======
+=======
 
-# Python API client for StackExchange APIv2.1
+Python API client for StackExchange APIv2.1
 
-## Install
+## Installation
 
 ### To Run
 * pip install requests
