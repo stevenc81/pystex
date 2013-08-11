@@ -14,7 +14,7 @@ Nothing specific now
 
 ## Usage
 
-	from stackexchange import Stackexchange
+	from pystex.stackexchange import Stackexchange
 
 	client = Stackexchange({Your API Key})
 	result = client.users.get()
