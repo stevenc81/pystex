@@ -34,7 +34,16 @@ def _encode_ids(*args):
     Do url-encode resource ids
     """
 
-    return ';'.join(args)
+    ids = []
+    for v in args:
+        if isinstance(v, basestring):
+            qv = v.encode('utf-8') if isinstance(v, unicode) else v
+            ids.append(urllib.quote(qv))
+        else:
+            qv = str(v)
+            ids.append(urllib.quote(qv))
+
+    return ';'.join(ids)
 
 
 def _http_call(url, method, *args, **kwargs):
@@ -43,14 +52,11 @@ def _http_call(url, method, *args, **kwargs):
     url_format_str = '%s%s?%s'
 
     if args:
-        ids = _encode_ids()
+        ids = _encode_ids(*args)
         url_format_str = '%s/%s?%s'
-
-    print ids
 
     http_url = url_format_str % (url, ids, params) if method == _HTTP_GET else url
 
-    print http_url
     result = requests.get(http_url)
     return json.loads(result.text)
 
@@ -82,8 +88,8 @@ class _Executable(object):
 
     def __call__(self, *args, **kwargs):
         return _http_call('%s%s' % (self._client.api_url, self._path), \
-            self._method, app_key=self._client.app_key, site=self._client.site, \
-            *args, **kwargs)
+            self._method, *args, app_key=self._client.app_key, site=self._client.site, \
+            **kwargs)
 
     def __str__(self):
         return "_Executable (%s %s)" % (self._method, self._path)

@@ -7,7 +7,7 @@ Python API client for StackExchange APIv2.1
 ## Installation
 
 ### To Run
-* pip install requests
+	pip install pystex
 
 ### To Develop
 Nothing specific now
