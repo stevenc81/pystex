@@ -2,3 +2,6 @@
 bin/
 include/
 lib/
+pystex.egg-info/
+*.pyc
+dist/
