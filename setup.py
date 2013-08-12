@@ -1,9 +1,18 @@
+import os
+import sys
+
 import pystex
 
 try:
     from setuptools import setup
 except ImportError:
     from distutils.core import setup
+
+if sys.argv[-1] == 'publish':
+    os.system('python setup.py sdist upload')
+    sys.exit()
+
+requires = ["requests == 1.2.3"]
 
 setup(
     name='pystex',
@@ -13,5 +22,24 @@ setup(
     author_email='stevenc81@gmail.com',
     url='https://github.com/stevenc81/pystex',
     packages=['pystex'],
+    package_data={'': ['LICENSE']},
+    install_requires=requires,
+	classifiers=[
+	'Development Status :: 3 - Alpha',
+	'Environment :: Web Environment',
+	'Intended Audience :: Developers',
+	'License :: OSI Approved :: MIT License',
+	'Operating System :: OS Independent',
+	'Programming Language :: Python :: 2.6',
+	'Programming Language :: Python :: 2.7',
+	'Programming Language :: Python :: 3',
+	'Programming Language :: Python :: 3.2',
+	'Programming Language :: Python :: 3.3',
+	'Topic :: Internet :: WWW/HTTP',
+	'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+	'Topic :: Internet :: WWW/HTTP :: WSGI',
+	'Topic :: Software Development :: Libraries :: Application Frameworks',
+	'Topic :: Software Development :: Libraries :: Python Modules',
+	],
  )
 

@@ -5,3 +5,4 @@ lib/
 pystex.egg-info/
 *.pyc
 dist/
+build/
