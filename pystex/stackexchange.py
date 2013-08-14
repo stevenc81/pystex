@@ -5,6 +5,21 @@ import json
 _HTTP_GET = 0
 _HTTP_POST = 1
 
+class APIError(StandardError):
+    """
+    APIError contains json message indicating failure
+    """
+    def __init__(self, error_id, error_message, error_name, request):
+        self.error_id = error_id
+        self.error_message = error_message
+        self.error_name = error_name
+        self.request = request
+        StandardError.__init__(self, error_name)
+
+    def __str__(self):
+        return 'APIError: %s: %s\n%s\nrequest: %s' % \
+        (self.error_id, self.error_name, self.error_message, self.request)
+
 def _encode_params(**kwargs):
     """
     Do url-encode parameters
@@ -58,7 +73,13 @@ def _http_call(url, method, *args, **kwargs):
     http_url = url_format_str % (url, ids, params) if method == _HTTP_GET else url
 
     result = requests.get(http_url)
-    return json.loads(result.text)
+    result = json.loads(result.text)
+
+    if 'error_id' in result:
+        raise APIError(result['error_id'], result['error_message'],
+            result['error_name'], http_url)
+
+    return result
 
 
 class Stackexchange(object):
