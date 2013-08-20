@@ -109,7 +109,7 @@ class _Executable(object):
 
     def __call__(self, *args, **kwargs):
         return _http_call('%s%s' % (self._client.api_url, self._path), \
-            self._method, *args, app_key=self._client.app_key, site=self._client.site, \
+            self._method, *args, key=self._client.app_key, site=self._client.site, \
             **kwargs)
 
     def __str__(self):
