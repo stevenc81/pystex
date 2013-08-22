@@ -17,7 +17,7 @@ class APIError(StandardError):
         super(StandardError, self).__init__(*args, **kwargs)
 
     def __str__(self):
-        return super().__str__() + \
+        return super(StandardError, self).__str__() + \
         'APIError: %s: %s\n%s\nrequest: %s' % \
         (self.error_id, self.error_name, self.error_message, self.request)
 
