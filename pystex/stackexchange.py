@@ -82,7 +82,7 @@ def _http_call(url, method, *args, **kwargs):
     try:
         result = json.loads(result.text)
     except ValueError as e:
-        raise APIError('ValueError', result.ext, 'ValueError', http_url, e)
+        raise APIError('ValueError', result.text, 'ValueError', http_url, e)
 
     if 'error_id' in result:
         raise APIError(result['error_id'], result['error_message'],
