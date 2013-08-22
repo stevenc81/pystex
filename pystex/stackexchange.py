@@ -9,15 +9,16 @@ class APIError(StandardError):
     """
     APIError contains json message indicating failure
     """
-    def __init__(self, error_id, error_message, error_name, request):
+    def __init__(self, error_id, error_message, error_name, request,  *args, **kwargs):
         self.error_id = error_id
         self.error_message = error_message
         self.error_name = error_name
         self.request = request
-        StandardError.__init__(self, error_name)
+        super(StandardError, self).__init__(*args, **kwargs)
 
     def __str__(self):
-        return 'APIError: %s: %s\n%s\nrequest: %s' % \
+        return super.__str__() + \
+        'APIError: %s: %s\n%s\nrequest: %s' % \
         (self.error_id, self.error_name, self.error_message, self.request)
 
 def _encode_params(**kwargs):
@@ -72,9 +73,12 @@ def _http_call(url, method, *args, **kwargs):
 
     http_url = url_format_str % (url, ids, params) if method == _HTTP_GET else url
 
-    result = requests.get(http_url)
-    result = json.loads(result.text)
+    try:
+        result = requests.get(http_url)
+    except requests.exceptions.ConnectionError:
+        raise APIError('ConnectionError', 'ConnectionError', 'ConnectionError', http_url)
 
+    result = json.loads(result.text)
     if 'error_id' in result:
         raise APIError(result['error_id'], result['error_message'],
             result['error_name'], http_url)
