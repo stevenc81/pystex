@@ -17,8 +17,8 @@ class APIError(StandardError):
         super(StandardError, self).__init__(*args, **kwargs)
 
     def __str__(self):
-        return super(StandardError, self).__str__() + \
-        'APIError: %s: %s\n%s\nrequest: %s' % \
+        return super(StandardError, self).__str__() + '\n' \
+        'APIError: %s: %s\n%s\nURL: %s' % \
         (self.error_id, self.error_name, self.error_message, self.request)
 
 def _encode_params(**kwargs):
@@ -82,7 +82,7 @@ def _http_call(url, method, *args, **kwargs):
     try:
         result = json.loads(result.text)
     except ValueError as e:
-        raise APIError('ValueError', 'ValueError', 'ValueError', http_url, e)
+        raise APIError('ValueError', result.ext, 'ValueError', http_url, e)
 
     if 'error_id' in result:
         raise APIError(result['error_id'], result['error_message'],
