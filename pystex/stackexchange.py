@@ -75,10 +75,15 @@ def _http_call(url, method, *args, **kwargs):
 
     try:
         result = requests.get(http_url)
-    except requests.exceptions.ConnectionError:
-        raise APIError('ConnectionError', 'ConnectionError', 'ConnectionError', http_url)
+    except requests.exceptions.ConnectionError as e:
+        raise APIError('ConnectionError', 'ConnectionError', 'ConnectionError',
+                       http_url, e)
 
-    result = json.loads(result.text)
+    try:
+        result = json.loads(result.text)
+    except ValueError as e:
+        raise APIError('ValueError', 'ValueError', 'ValueError', http_url, e)
+
     if 'error_id' in result:
         raise APIError(result['error_id'], result['error_message'],
             result['error_name'], http_url)
