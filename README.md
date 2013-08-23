@@ -14,7 +14,12 @@ Nothing specific now
 
 ## Usage
 
-	from pystex.stackexchange import Stackexchange
+	from pystex import Stackexchange
+    from pystex import APIError
 
 	client = Stackexchange({Your API Key})
-	result = client.users.get()
+
+    try:
+	   result = client.users.get()
+    except APIError as e:
+        print e
