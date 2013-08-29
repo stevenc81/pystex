@@ -119,7 +119,7 @@ class _Executable(object):
     def __init__(self, client, method, path):
         self._client = client
         self._method = method
-        self._auth = None if client.app_key is None else {'app_key': client.app_key}
+        self._auth = None if client.app_key is None else {'key': client.app_key}
         self._path = path
 
     def __call__(self, *args, **kwargs):
