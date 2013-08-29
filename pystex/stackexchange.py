@@ -62,16 +62,21 @@ def _encode_ids(*args):
     return ';'.join(ids)
 
 
-def _http_call(url, method, *args, **kwargs):
+def _http_call(url, method, auth, *args, **kwargs):
     params = _encode_params(**kwargs)
     ids = ''
+    credentials =''
     url_format_str = '%s%s?%s'
 
     if args:
         ids = _encode_ids(*args)
         url_format_str = '%s/%s?%s'
+    if auth:
+        credentials = _encode_params(**auth)
+        url_format_str += '&%s'
 
-    http_url = url_format_str % (url, ids, params) if method == _HTTP_GET else url
+    http_url = url_format_str % (url, ids, params, credentials) \
+               if method == _HTTP_GET else url
 
     try:
         result = requests.get(http_url)
@@ -96,7 +101,7 @@ class Stackexchange(object):
     Stackexchange uses dot notation when accessing Stackexchange API
     """
 
-    def __init__(self, app_key, domain='api.stackexchange.com', \
+    def __init__(self, app_key=None, domain='api.stackexchange.com', \
         site='stackoverflow', version='2.1'):
 
         self.app_key = str(app_key)
@@ -114,12 +119,12 @@ class _Executable(object):
     def __init__(self, client, method, path):
         self._client = client
         self._method = method
+        self._auth = None if client.app_key is None else {'app_key': client.app_key}
         self._path = path
 
     def __call__(self, *args, **kwargs):
         return _http_call('%s%s' % (self._client.api_url, self._path), \
-            self._method, *args, key=self._client.app_key, site=self._client.site, \
-            **kwargs)
+            self._method, self._auth, *args, site=self._client.site, **kwargs)
 
     def __str__(self):
         return "_Executable (%s %s)" % (self._method, self._path)
