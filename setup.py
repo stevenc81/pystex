@@ -1,8 +1,6 @@
 import os
 import sys
 
-import pystex
-
 try:
     from setuptools import setup
 except ImportError:
@@ -16,7 +14,7 @@ requires = ["requests == 1.2.3"]
 
 setup(
     name='pystex',
-    version=pystex.__version__,
+    version='0.0.18',
     description='Python StackExchange API Client',
     author='Steven Cheng',
     author_email='stevenc81@gmail.com',
@@ -24,20 +22,21 @@ setup(
     packages=['pystex'],
     package_data={'': ['LICENSE']},
     install_requires=requires,
-	classifiers=[
-	'Development Status :: 3 - Alpha',
-	'Environment :: Web Environment',
-	'Intended Audience :: Developers',
-	'Operating System :: OS Independent',
-	'Natural Language :: English',
-	'Programming Language :: Python :: 2.6',
-	'Programming Language :: Python :: 2.7',
-	'Programming Language :: Python :: 3',
-	'Programming Language :: Python :: 3.2',
-	'Programming Language :: Python :: 3.3',
-	'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
-	'Topic :: Software Development :: Libraries :: Application Frameworks',
-	'Topic :: Software Development :: Libraries :: Python Modules',
-	],
+    classifiers=[
+    'Development Status :: 3 - Alpha',
+    'Environment :: Web Environment',
+    'Intended Audience :: Developers',
+    'Operating System :: OS Independent',
+    'Natural Language :: English',
+    'Programming Language :: Python :: 2.6',
+    'Programming Language :: Python :: 2.7',
+    'Programming Language :: Python :: 3',
+    'Programming Language :: Python :: 3.2',
+    'Programming Language :: Python :: 3.3',
+    'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+    'Topic :: Software Development :: Libraries :: Application Frameworks',
+    'Topic :: Software Development :: Libraries :: Python Modules',
+    ],
  )
+
 
