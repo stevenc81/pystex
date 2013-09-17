@@ -14,7 +14,7 @@ requires = ["requests == 1.2.3"]
 
 setup(
     name='pystex',
-    version='0.0.18',
+    version='0.0.19',
     description='Python StackExchange API Client',
     author='Steven Cheng',
     author_email='stevenc81@gmail.com',
