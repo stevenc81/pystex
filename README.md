@@ -24,7 +24,7 @@ Nothing specific now
     except APIError as e:
         print e
 
-In case of having variables for API calling. For example:
+In case of having variables for an API call. For example:
 
     http://api.stackexchange.com/2.1/tags/python/top-answerers/all_time?pagesize=30&site=stackoverflow
 
