@@ -9,17 +9,21 @@ class APIError(StandardError):
     """
     APIError contains json message indicating failure
     """
-    def __init__(self, error_id, error_message, error_name, request,  *args, **kwargs):
+    def __init__(self, error_id, error_message, error_name, request, resp='N/A',
+        *args, **kwargs):
+
         self.error_id = error_id
         self.error_message = error_message
         self.error_name = error_name
         self.request = request
+        self.resp = resp
         super(StandardError, self).__init__(*args, **kwargs)
 
     def __str__(self):
         return super(StandardError, self).__str__() + '\n' \
-        'APIError: %s: %s\n%s\nURL: %s' % \
-        (self.error_id, self.error_name, self.error_message, self.request)
+        'APIError: %s: %s\n%s\nURL: %s\nResp Body:\n%s' % \
+        (self.error_id, self.error_name, self.error_message, self.request,
+            self.resp)
 
 def _encode_params(**kwargs):
     """
@@ -82,16 +86,17 @@ def _http_call(url, method, auth, *args, **kwargs):
         result = requests.get(http_url)
     except requests.exceptions.ConnectionError as e:
         raise APIError('ConnectionError', 'ConnectionError', 'ConnectionError',
-                       http_url, e)
+                       http_url, 'N/A', e)
 
     try:
         result = json.loads(result.text)
     except ValueError as e:
-        raise APIError('ValueError', result.text, 'ValueError', http_url, e)
+        raise APIError('ValueError', result.text, 'ValueError', http_url, 'N/A',
+            e)
 
     if 'error_id' in result:
         raise APIError(result['error_id'], result['error_message'],
-            result['error_name'], http_url)
+            result['error_name'], http_url, result)
 
     return result
 
